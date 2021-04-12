@@ -1,0 +1,287 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Data.SQLite;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace BasaKIPiA
+{
+    public partial class EditDeviceForm : Form
+    {
+        SQLiteConnection conn;
+        SQLiteCommand cmd;
+        SQLiteDataReader dr;
+        string sqlQuery1 = "SELECT * FROM types ORDER BY type";
+        string sqlQuery2 = "SELECT * FROM manufacturers ORDER BY title";
+        MetodsWorkDataBase mwdb = new MetodsWorkDataBase();
+
+        int id;
+        string type;
+        string model;
+        string manufacturer;
+        string factory_number;
+        string accuracy_class;
+        string number_of_channels;
+        string range;
+        string units;
+        string date_of_last_calibration;
+        string calibration_interval;
+        string date_of_next_calibration;
+        string facility;
+        string position;
+        string file_format;
+        string file_name;
+        string nameObject;
+        int year;
+
+        string dataPoslPov;
+        string intervPoverki;
+        string nextPov;
+        public EditDeviceForm(int id, string type, string model, string manufacturer, string factory_number, string accuracy_class, string number_of_channels, string range, string units, string date_of_last_calibration, string calibration_interval, string date_of_next_calibration, string facility, string position, string file_format, string file_name, string nameObject)
+        {
+            InitializeComponent();
+            this.id = id;
+            this.type = type;
+            this.model = model;
+            this.manufacturer = manufacturer;
+            this.factory_number = factory_number;
+            this.accuracy_class = accuracy_class;
+            this.number_of_channels = number_of_channels;
+            this.range = range;
+            this.units = units;
+            this.date_of_last_calibration = date_of_last_calibration;
+            this.calibration_interval = calibration_interval;
+            this.date_of_next_calibration = date_of_next_calibration;
+            this.facility = facility;
+            this.position = position;
+            this.file_format = file_format;
+            this.file_name = file_name;
+            this.nameObject = nameObject;
+        }
+
+        private void EditDeviceForm_Load(object sender, EventArgs e)
+        {
+            populateCbxTypes();
+            populateCbxManufacturers();
+            txb_Model.Text = model;
+            txb_FabricNumber.Text = factory_number;
+            txb_KlassTochn.Text = accuracy_class;
+            txb_KolvoIzmKan.Text = number_of_channels;
+            txb_Predel.Text = range;
+            txb_EdinIzm.Text = units;
+            if(date_of_last_calibration == "--")
+            {
+                date_of_last_calibration = DateTime.Now.Day.ToString() + "." + DateTime.Now.Month.ToString() + "." + DateTime.Now.Year.ToString();
+            }
+            nudKvartal.Value = int.Parse(date_of_last_calibration.Substring(0,1));
+            year = int.Parse(date_of_last_calibration.Substring(date_of_last_calibration.Length - 4));
+            dtpYearPoverka.Value = new DateTime(year, DateTime.Now.Month, DateTime.Now.Day);
+            nudInterval.Value = int.Parse(calibration_interval);
+            txb_NextPov.Text = date_of_next_calibration;
+            txb_Object.Text = facility;
+            txb_Poziciya.Text = position;
+            settingsFormForFile();
+            
+        }
+
+
+        private void populateCbxTypes()
+        {
+            using (conn = new SQLiteConnection("Data Source=" + D.DATA + ";Version=3;"))
+            {
+                try
+                {
+                    cmd = new SQLiteCommand();
+                    cmd.CommandText = sqlQuery1;
+                    cmd.Connection = conn;
+                    conn.Open();
+                    dr = cmd.ExecuteReader();
+                    cbx_Type.Items.Add("--");
+                    while (dr.Read())
+                    {
+                        cbx_Type.Items.Add(dr["type"]);
+                    }
+                    cbx_Type.SelectedItem = type;
+                }
+                catch (SQLiteException ex)
+                {
+                    MessageBox.Show("Ошибка: " + ex.Message);
+                }
+            }
+
+
+        }
+
+        private void populateCbxManufacturers()
+        {
+            using (conn = new SQLiteConnection("Data Source=" + D.DATA + ";Version=3;"))
+            {
+                try
+                {
+                    cmd = new SQLiteCommand();
+                    cmd.CommandText = sqlQuery2;
+                    cmd.Connection = conn;
+                    conn.Open();
+                    dr = cmd.ExecuteReader();
+                    cbx_Manufacturer.Items.Add("--");
+                    while (dr.Read())
+                    {
+                        cbx_Manufacturer.Items.Add(dr["title"]);
+                    }
+                    cbx_Manufacturer.SelectedItem = manufacturer;
+                }
+                catch (SQLiteException ex)
+                {
+                    MessageBox.Show("Ошибка: " + ex.Message);
+                }
+            }
+
+        }
+
+        private void btn_Okey_Click(object sender, EventArgs e)
+        {
+            if (poverkaFormat())
+            {
+                return;
+            }
+
+            if (txb_Model.Text.Trim() == "")
+                txb_Model.Text = "--";
+            if (txb_FabricNumber.Text.Trim() == "--")
+                txb_FabricNumber.Text = "--";
+            if (txb_KlassTochn.Text.Trim() == "--")
+                txb_KlassTochn.Text = "--";
+            if (txb_KolvoIzmKan.Text.Trim() == "")
+                txb_KolvoIzmKan.Text = "--";
+            if (txb_Predel.Text.Trim() == "")
+                txb_Predel.Text = "--";
+            if (txb_EdinIzm.Text.Trim() == "")
+                txb_EdinIzm.Text = "--";
+            
+            
+            if (txb_NextPov.Text.Trim() == "")
+                txb_NextPov.Text = "--";
+            if (txb_Object.Text.Trim() == "")
+                txb_Object.Text = "--";
+            if (txb_Poziciya.Text.Trim() == "")
+                txb_Poziciya.Text = "--";
+
+            if (mwdb.updateDate(id, cbx_Type.SelectedItem.ToString(), txb_Model.Text.Trim(), cbx_Manufacturer.SelectedItem.ToString(), txb_FabricNumber.Text.Trim(), txb_KlassTochn.Text.Trim(), txb_KolvoIzmKan.Text.Trim(), txb_Predel.Text.Trim(), txb_EdinIzm.Text.Trim(), dataPoslPov,
+                intervPoverki, txb_NextPov.Text.Trim(), txb_Object.Text.Trim(), txb_Poziciya.Text.Trim(), nameObject))
+            {
+                this.DialogResult = DialogResult.OK;
+            }
+
+            else
+            {
+                this.DialogResult = DialogResult.No;
+            }
+
+        }
+
+        private void btn_Cancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+
+        private bool poverkaFormat()
+        {
+            bool flag = false;
+            if (dtpYearPoverka.Value.Year > DateTime.Now.Year)
+            {
+                MessageBox.Show("Год предыдущей поверки не может быть больше текущего");
+                flag = true;
+                return flag;
+            }
+
+            nextPov = nudKvartal.Value.ToString() + " " + txbKvString.Text + " " + (dtpYearPoverka.Value.Year + ((int)nudInterval.Value / 12)).ToString();
+            txb_NextPov.Text = nextPov;
+
+            intervPoverki = nudInterval.Value.ToString();
+
+            dataPoslPov = nudKvartal.Value.ToString() + " " + txbKvString.Text + " " + (dtpYearPoverka.Value.Year).ToString();
+
+            return flag;
+
+        }
+
+        private void nudKvartal_ValueChanged(object sender, EventArgs e)
+        {
+            poverkaFormat();
+        }
+
+        private void dtpYearPoverka_ValueChanged(object sender, EventArgs e)
+        {
+            poverkaFormat();
+        }
+
+        private void nudInterval_ValueChanged(object sender, EventArgs e)
+        {
+            poverkaFormat();
+        }
+
+        private void settingsFormForFile()
+        {
+            if (string.IsNullOrEmpty(file_name))
+            {
+                pictureBox1.Image = Properties.Resources.noFile;
+                btnInsertFile.Visible = true;
+                btnDeleteFile.Visible = false;
+                btnReadFile.Visible = false;
+            }
+            else
+            {
+                pictureBox1.Image = Properties.Resources.yesFile;
+                btnInsertFile.Visible = false;
+                btnDeleteFile.Visible = true;
+                btnReadFile.Visible = true;
+            }
+        }
+
+        private void btnInsertFile_Click(object sender, EventArgs e)
+        {
+           if( mwdb.addFile(id, nameObject))
+            {
+                MessageBox.Show("Файл добавлен");
+                pictureBox1.Image = Properties.Resources.yesFile;
+                btnInsertFile.Enabled = false;
+                btnDeleteFile.Enabled = true;
+                btnReadFile.Enabled = true;
+            }
+            
+        }
+
+        private void btnDeleteFile_Click(object sender, EventArgs e)
+        {
+           if( mwdb.deleteFile(id, nameObject) )
+            {
+                MessageBox.Show("Файл удалён");
+                pictureBox1.Image = Properties.Resources.noFile;
+                btnInsertFile.Enabled = true;
+                btnDeleteFile.Enabled = false;
+                btnReadFile.Enabled = false;
+            }
+            else
+            {
+                MessageBox.Show("Ошибка удаления");
+            }
+            
+        }
+
+        private void btnReadFile_Click(object sender, EventArgs e)
+        {
+            mwdb.readingFile(id, nameObject);
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+    }
+}
