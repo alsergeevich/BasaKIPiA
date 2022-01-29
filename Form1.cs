@@ -406,7 +406,7 @@ namespace BasaKIPiA
                 kvartalNow = ((int)(DateTime.Now.Month) + 2) / 3;
                 kvartalNext = int.Parse(row.Cells[11].Value.ToString().Substring(0, 1));
                 yearNext = int.Parse(row.Cells[11].Value.ToString().Substring(row.Cells[11].Value.ToString().Length - 4));
-
+                if (kvartalNow >= kvartalNext && yearNow >= yearNext || yearNow > yearNext)
                 {
                     row.DefaultCellStyle.BackColor = Color.Red;
                 }
