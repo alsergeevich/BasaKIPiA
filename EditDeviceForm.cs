@@ -37,7 +37,9 @@ namespace BasaKIPiA
         string file_format;
         string file_name;
         string nameObject;
-        int year;
+        int year_dp;
+        int day_dp;
+        int month_dp;
 
         string dataPoslPov;
         string intervPoverki;
@@ -78,9 +80,19 @@ namespace BasaKIPiA
             {
                 date_of_last_calibration = DateTime.Now.Day.ToString() + "." + DateTime.Now.Month.ToString() + "." + DateTime.Now.Year.ToString();
             }
-            nudKvartal.Value = int.Parse(date_of_last_calibration.Substring(0,1));
-            year = int.Parse(date_of_last_calibration.Substring(date_of_last_calibration.Length - 4));
-            dtpYearPoverka.Value = new DateTime(year, DateTime.Now.Month, DateTime.Now.Day);
+            string[] dates_split = date_of_last_calibration.Split(new char[] {'.'});//разбиваем дату на элементы по точкам
+            try
+            {
+                day_dp = int.Parse(dates_split[0]); //парсим день, месяц, год из string в int
+                month_dp = int.Parse(dates_split[1]);
+                year_dp = int.Parse(dates_split[2]);
+                dtpYearPoverka.Value = new DateTime(year_dp, month_dp, day_dp); //устанавливаем значения года, месяца, дня в DateTimePicker
+            }
+            catch
+            {
+
+            }
+            
             nudInterval.Value = int.Parse(calibration_interval);
             txb_NextPov.Text = date_of_next_calibration;
             txb_Object.Text = facility;
@@ -189,6 +201,23 @@ namespace BasaKIPiA
             this.Close();
         }
 
+        private string formatStringDatePoverka(DateTimePicker dtpick)
+        {
+            string day = dtpick.Value.Day.ToString();
+            string month = dtpick.Value.Month.ToString();
+
+            string fulldate = "";
+            if (dtpick.Value.Day < 10)
+            {
+                day = "0" + day;
+            }
+            if (dtpick.Value.Month < 10)
+            {
+                month = "0" + month;
+            }
+
+            return fulldate + day + "." + month + ".";
+        }
 
         private bool poverkaFormat()
         {
@@ -200,12 +229,12 @@ namespace BasaKIPiA
                 return flag;
             }
 
-            nextPov = nudKvartal.Value.ToString() + " " + txbKvString.Text + " " + (dtpYearPoverka.Value.Year + ((int)nudInterval.Value / 12)).ToString();
+            nextPov = formatStringDatePoverka(dtpYearPoverka) + (dtpYearPoverka.Value.Year + ((int)nudInterval.Value / 12)).ToString();
             txb_NextPov.Text = nextPov;
 
             intervPoverki = nudInterval.Value.ToString();
 
-            dataPoslPov = nudKvartal.Value.ToString() + " " + txbKvString.Text + " " + (dtpYearPoverka.Value.Year).ToString();
+            dataPoslPov = formatStringDatePoverka(dtpYearPoverka) + dtpYearPoverka.Value.Year.ToString();
 
             return flag;
 

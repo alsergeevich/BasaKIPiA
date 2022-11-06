@@ -162,7 +162,23 @@ namespace BasaKIPiA
             }
         }
 
-        
+        private string formatStringDatePoverka(DateTimePicker dtpick)
+        {
+            string day = dtpick.Value.Day.ToString();
+            string month = dtpick.Value.Month.ToString();
+            
+            string fulldate = "";
+            if (dtpick.Value.Day < 10)
+            {
+                day = "0" + day;
+            }
+            if (dtpick.Value.Month < 10)
+            {
+                month = "0" + month;
+            }
+
+            return fulldate + day + "." + month + ".";
+        }
 
         private bool poverkaFormat()
         {
@@ -174,12 +190,12 @@ namespace BasaKIPiA
                 return flag;
             }
 
-            nextPov = nudKvartal.Value.ToString() + " " + txbKvString.Text + " " + (dtpYearPoverka.Value.Year + ((int)nudInterval.Value / 12)).ToString();
+            nextPov = formatStringDatePoverka(dtpYearPoverka) + (dtpYearPoverka.Value.Year + ((int)nudInterval.Value / 12)).ToString();
             txb_NextPov.Text = nextPov;
 
             intervPoverki = nudInterval.Value.ToString();
 
-            dataPoslPov = nudKvartal.Value.ToString() + " " + txbKvString.Text + " " + (dtpYearPoverka.Value.Year).ToString();
+            dataPoslPov = formatStringDatePoverka(dtpYearPoverka) + dtpYearPoverka.Value.Year.ToString();
 
             return flag;
 

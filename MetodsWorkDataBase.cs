@@ -9,6 +9,8 @@ using System.Windows.Forms;
 using DGVPrinterHelper;
 using System.Drawing;
 using System.IO;
+using OfficeOpenXml;
+
 
 namespace BasaKIPiA
 {
@@ -256,70 +258,89 @@ namespace BasaKIPiA
 
         } 
 
+        
         public void exportDGVtoExcel(DataGridView dataGridView) // экспорт в эксель
         {
-            
-            Microsoft.Office.Interop.Excel._Application app = new Microsoft.Office.Interop.Excel.Application();
-            Microsoft.Office.Interop.Excel._Workbook workbook = app.Workbooks.Add(Type.Missing);
-            Microsoft.Office.Interop.Excel._Worksheet worksheet = null;
-            
-            worksheet = workbook.ActiveSheet;
-            worksheet.Name = "List Devices";
-
-            
-
-            for (int a = 2;  a < dataGridView.Columns.Count + 1; a++)
-            {
-                int i = a;
-                if(i == 13)
-                {
-                    continue;
-                }
-
-                if(i > 13)
-                {
-                    i = i - 1;
-                }
-               
-
-                if (a == 15)
-                {
-                    break;
-                }
-                worksheet.Cells[1, i-1] = dataGridView.Columns[a - 1].HeaderText;
-                
-            }
-
-            for (int i = 0; i < dataGridView.Rows.Count; i++)
-            {
-                for (int a = 1; a < dataGridView.Columns.Count - 3; a++)
-                {
-                    int j = a;
-
-                    if (j == 12)
-                    {
-                        continue;
-                    }
-                    
-                    if(j > 12)
-                    {
-                        j = j - 1;
-                    }
-                    
-                    worksheet.Cells[i + 2, j] = dataGridView.Rows[i].Cells[a].Value.ToString();
-                }
-            }
-
-            var saveFileDialoge = new SaveFileDialog();
+            var saveFileDialoge = new SaveFileDialog(); // диалог сохранения файла
             saveFileDialoge.FileName = "output";
             saveFileDialoge.DefaultExt = ".xlsx";
 
-            if(saveFileDialoge.ShowDialog() == DialogResult.OK)
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial; // устанавливаем некоммерческую лицензию
+
+            if (saveFileDialoge.ShowDialog() == DialogResult.OK) //если сохраняем
             {
-                workbook.SaveAs(saveFileDialoge.FileName, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlExclusive, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+                using(ExcelPackage myExcelPackage = new ExcelPackage(saveFileDialoge.FileName)) //создаём экселевский файл
+                {
+                    ExcelWorksheet worksheet = myExcelPackage.Workbook.Worksheets.Add("Sheet1"); // создаём книгу в файле
+
+                    worksheet.View.ShowGridLines = true;
+                    worksheet.Cells[1, 12, 1, 13].Merge = true;
+                    worksheet.DefaultColWidth = 30;//минимальная ширина столбца
+                    worksheet.Cells.AutoFitColumns(worksheet.DefaultColWidth);
+
+                    for (int a = 2; a < dataGridView.Columns.Count + 1; a++) //переносим заголовки из datagridview
+                    {
+                        int i = a;
+                        if (i == 13)
+                        {
+                            continue;
+                        }
+
+                        if (i > 13)
+                        {
+                            i = i - 1;
+                        }
+
+
+                        if (a == 15)
+                        {
+                            break;
+                        }
+                        worksheet.Cells[1, i - 1].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;//устанавливаем заголовки в центр
+                        worksheet.Cells[1, i - 1].Value = dataGridView.Columns[a - 1].HeaderText;
+
+                    }
+
+                    for (int i = 0; i < dataGridView.Rows.Count; i++) //переносим остальные данные
+                    {
+                        worksheet.Cells[i + 2, 12, i + 2, 13].Merge = true;//объединяем ячейки в последнем столбце
+                        
+
+                        for (int a = 1; a < dataGridView.Columns.Count - 3; a++)
+                        {
+                            int j = a;
+
+                            if (j == 12)
+                            {
+                                continue;
+                            }
+
+                            if (j > 12)
+                            {
+                                j = j - 1;
+                            }
+                            worksheet.Cells[i + 2, j].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;//по центру
+                            worksheet.Cells[i + 2, 12, i + 2, 13].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Left;//в последних столбцах прижать влево
+                            worksheet.Cells[i + 2, j].Value = dataGridView.Rows[i].Cells[a].Value.ToString();
+                        }
+                    }
+
+                    myExcelPackage.Save(); //сохраняем все сделанные изменения в экселевском файле
+
+                }
             }
 
-            app.Quit();
+            
+
+
+
+            
+
+            
+
+            
+
+            
 
         }
 

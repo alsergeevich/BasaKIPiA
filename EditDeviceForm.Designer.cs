@@ -40,8 +40,6 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.nudInterval = new System.Windows.Forms.NumericUpDown();
             this.dtpYearPoverka = new System.Windows.Forms.DateTimePicker();
-            this.txbKvString = new System.Windows.Forms.TextBox();
-            this.nudKvartal = new System.Windows.Forms.NumericUpDown();
             this.txb_Poziciya = new System.Windows.Forms.TextBox();
             this.txb_Object = new System.Windows.Forms.TextBox();
             this.txb_NextPov = new System.Windows.Forms.TextBox();
@@ -70,7 +68,6 @@
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudInterval)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudKvartal)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -118,8 +115,6 @@
             this.panel2.Controls.Add(this.pictureBox1);
             this.panel2.Controls.Add(this.nudInterval);
             this.panel2.Controls.Add(this.dtpYearPoverka);
-            this.panel2.Controls.Add(this.txbKvString);
-            this.panel2.Controls.Add(this.nudKvartal);
             this.panel2.Controls.Add(this.txb_Poziciya);
             this.panel2.Controls.Add(this.txb_Object);
             this.panel2.Controls.Add(this.txb_NextPov);
@@ -237,47 +232,14 @@
             // dtpYearPoverka
             // 
             this.dtpYearPoverka.CustomFormat = "yyyy";
-            this.dtpYearPoverka.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpYearPoverka.Location = new System.Drawing.Point(298, 257);
+            this.dtpYearPoverka.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpYearPoverka.Location = new System.Drawing.Point(209, 254);
             this.dtpYearPoverka.MinDate = new System.DateTime(1999, 1, 1, 0, 0, 0, 0);
             this.dtpYearPoverka.Name = "dtpYearPoverka";
             this.dtpYearPoverka.ShowUpDown = true;
             this.dtpYearPoverka.Size = new System.Drawing.Size(83, 20);
             this.dtpYearPoverka.TabIndex = 54;
             this.dtpYearPoverka.ValueChanged += new System.EventHandler(this.dtpYearPoverka_ValueChanged);
-            // 
-            // txbKvString
-            // 
-            this.txbKvString.Location = new System.Drawing.Point(254, 257);
-            this.txbKvString.Name = "txbKvString";
-            this.txbKvString.ReadOnly = true;
-            this.txbKvString.Size = new System.Drawing.Size(38, 20);
-            this.txbKvString.TabIndex = 53;
-            this.txbKvString.Text = "кв";
-            // 
-            // nudKvartal
-            // 
-            this.nudKvartal.Location = new System.Drawing.Point(209, 257);
-            this.nudKvartal.Maximum = new decimal(new int[] {
-            4,
-            0,
-            0,
-            0});
-            this.nudKvartal.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.nudKvartal.Name = "nudKvartal";
-            this.nudKvartal.ReadOnly = true;
-            this.nudKvartal.Size = new System.Drawing.Size(38, 20);
-            this.nudKvartal.TabIndex = 52;
-            this.nudKvartal.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.nudKvartal.ValueChanged += new System.EventHandler(this.nudKvartal_ValueChanged);
             // 
             // txb_Poziciya
             // 
@@ -501,7 +463,6 @@
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudInterval)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudKvartal)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -536,8 +497,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btn_Okey;
         private System.Windows.Forms.Button btn_Cancel;
-        private System.Windows.Forms.TextBox txbKvString;
-        private System.Windows.Forms.NumericUpDown nudKvartal;
         private System.Windows.Forms.NumericUpDown nudInterval;
         private System.Windows.Forms.DateTimePicker dtpYearPoverka;
         private System.Windows.Forms.PictureBox pictureBox1;
