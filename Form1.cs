@@ -392,9 +392,12 @@ namespace BasaKIPiA
         private void proverkaPoverki()
         {
             int yearNow = DateTime.Now.Year;
+            int monthNow = DateTime.Now.Month;
+            int monthNext;
             int yearNext;
-            int kvartalNow;
-            int kvartalNext;
+            int intervalPoverki;
+            //int kvartalNow;
+            //int kvartalNext;
             foreach(DataGridViewRow row in dgw_ViewMain.Rows)
             {
 
@@ -403,17 +406,15 @@ namespace BasaKIPiA
                     continue;
                 }
 
-                kvartalNow = ((int)(DateTime.Now.Month) + 2) / 3;
-                kvartalNext = int.Parse(row.Cells[11].Value.ToString().Substring(0, 1));
-                yearNext = int.Parse(row.Cells[11].Value.ToString().Substring(row.Cells[11].Value.ToString().Length - 4));
-                if (kvartalNow >= kvartalNext && yearNow >= yearNext || yearNow > yearNext)
-                {
-                    row.DefaultCellStyle.BackColor = Color.Red;
-                }
-                else
-                {
-                    row.DefaultCellStyle.BackColor = Color.White;
-                }
+                //kvartalNow = ((int)(DateTime.Now.Month) + 2) / 3;
+                //kvartalNext = int.Parse(row.Cells[11].Value.ToString().Substring(0, 1));
+
+                intervalPoverki = int.Parse(row.Cells[10].Value.ToString()); //парсим значение межповерочного интервала
+                yearNext = int.Parse(row.Cells[11].Value.ToString().Substring(row.Cells[11].Value.ToString().Length - 4));//парсим значение года
+                monthNext = int.Parse(row.Cells[11].Value.ToString().Substring(3, 2));//парсим значение месяца
+                int datePoverki = ((yearNow - yearNext) * 12) + monthNow - monthNext; //сколько месяцев осталось до поверки
+
+                row.DefaultCellStyle.BackColor = (intervalPoverki + datePoverki) == intervalPoverki ? Color.Red : Color.White;    //если сумма межпов интервала и остатком месяцев до поверки == интервалу поверки
             }
         }
 
