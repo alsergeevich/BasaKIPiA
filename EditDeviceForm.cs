@@ -201,7 +201,7 @@ namespace BasaKIPiA
             this.Close();
         }
 
-        private string formatStringDatePoverka(DateTimePicker dtpick)
+        private string formatStringDatePoverka(DateTimePicker dtpick)//функция где формируется вид даты т.е если значения дня и месяца < 10 то добавляем перед ними 0
         {
             string day = dtpick.Value.Day.ToString();
             string month = dtpick.Value.Month.ToString();
@@ -219,7 +219,7 @@ namespace BasaKIPiA
             return fulldate + day + "." + month + ".";
         }
 
-        private bool poverkaFormat()
+        private bool poverkaFormat()//функция где формируются даты последней поверки и следующей поверки для записи в БД
         {
             bool flag = false;
             if (dtpYearPoverka.Value.Year > DateTime.Now.Year)

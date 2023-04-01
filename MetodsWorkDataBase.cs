@@ -391,7 +391,7 @@ namespace BasaKIPiA
 
         }
 
-        public bool addFile( int id, string nameObject)
+        public bool addFile( int id, string nameObject)  //сохраняем файл в базу
         {
             bool flag = false;
             openFileDialog1.Filter = "All files(*.*)|*.*";
@@ -436,9 +436,9 @@ namespace BasaKIPiA
             }
 
             return flag;
-        }
+        } 
 
-        public bool deleteFile(int id, string nameObject)
+        public bool deleteFile(int id, string nameObject) //удаляем файл из базы
         {
             bool flag = false;
             byte[] _fileBytes = null;
@@ -475,14 +475,14 @@ namespace BasaKIPiA
             return flag;
         }
 
-        public void readingFile(int id, string nameObject)
+        public void readingFile(int id, string nameObject) // получаем файл из БД
         {
             saveFileDialog1.Filter = "All files(*.*)|*.*";
             if (saveFileDialog1.ShowDialog() == DialogResult.Cancel)
                 return;
             string filename = saveFileDialog1.FileName;
 
-            // получаем данные их БД
+            // получаем данные из БД
             List<byte[]> _fileList = new List<byte[]>();
             List<string> _fileFormatList = new List<string>();
             using (SQLiteConnection Connect = new SQLiteConnection("Data Source=" + D.DATA + ";Version=3;"))
