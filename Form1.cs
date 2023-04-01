@@ -255,16 +255,16 @@ namespace BasaKIPiA
 
         }
 
-        private void btn_Edit_Click(object sender, EventArgs e)
+        private void editPriborAndShowWindowEdit()
         {
-            if(flag == false || id == 0 || allData.Count == 0)
+            if (flag == false || id == 0 || allData.Count == 0)
             {
                 MessageBox.Show("Выберите объект или прибор");
                 return;
             }
 
             EditDeviceForm editDeviceForm = new EditDeviceForm(id, type, model, manufacturer, factory_number, accuracy_class, number_of_channels, range, units, date_of_last_calibration, calibration_interval, date_of_next_calibration, facility, position, file_format, file_name, nameObject);
-            if(editDeviceForm.ShowDialog() == DialogResult.OK)
+            if (editDeviceForm.ShowDialog() == DialogResult.OK)
             {
                 MessageBox.Show("Данные прибора изменены");
                 search();
@@ -277,9 +277,9 @@ namespace BasaKIPiA
                 {
                     dgw_ViewMain.CurrentCell = dgw_ViewMain.Rows[indexrow].Cells[1];
                 }
-                
-                
-                
+
+
+
             }
             else
             {
@@ -289,8 +289,14 @@ namespace BasaKIPiA
                     dgw_ViewMain.CurrentCell = dgw_ViewMain.Rows[indexrow].Cells[1];
                 }
             }
+        }
 
-            
+        private void btn_Edit_Click(object sender, EventArgs e)
+        {
+
+            editPriborAndShowWindowEdit();
+
+
         }
 
         private void btn_Delete_Click(object sender, EventArgs e)
@@ -413,8 +419,15 @@ namespace BasaKIPiA
                 yearNext = int.Parse(row.Cells[11].Value.ToString().Substring(row.Cells[11].Value.ToString().Length - 4));//парсим значение года
                 monthNext = int.Parse(row.Cells[11].Value.ToString().Substring(3, 2));//парсим значение месяца
                 int datePoverki = ((yearNow - yearNext) * 12) + monthNow - monthNext; //сколько месяцев осталось до поверки
-
-                row.DefaultCellStyle.BackColor = (intervalPoverki + datePoverki) == intervalPoverki ? Color.Red : Color.White;    //если сумма межпов интервала и остатком месяцев до поверки == интервалу поверки
+                if (((intervalPoverki + datePoverki) == intervalPoverki) || yearNow > yearNext) //если сумма межпов интервала и остатком месяцев до поверки == интервалу поверки
+                {
+                    row.DefaultCellStyle.BackColor = Color.Red;
+                }
+                else
+                {
+                    row.DefaultCellStyle.BackColor = Color.White;
+                }
+                    
             }
         }
 
@@ -509,6 +522,11 @@ namespace BasaKIPiA
                     MessageBox.Show("Ошибка при удалении");
                 }
             }
+        }
+
+        private void dgw_ViewMain_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)//обработка двойного клика по строке для редактирования прибора
+        {
+            editPriborAndShowWindowEdit();
         }
     }
 
