@@ -419,7 +419,7 @@ namespace BasaKIPiA
                 yearNext = int.Parse(row.Cells[11].Value.ToString().Substring(row.Cells[11].Value.ToString().Length - 4));//парсим значение года
                 monthNext = int.Parse(row.Cells[11].Value.ToString().Substring(3, 2));//парсим значение месяца
                 int datePoverki = ((yearNow - yearNext) * 12) + monthNow - monthNext; //сколько месяцев осталось до поверки
-                if (((intervalPoverki + datePoverki) == intervalPoverki) || yearNow > yearNext) //если сумма межпов интервала и остатком месяцев до поверки == интервалу поверки
+                if (((intervalPoverki + datePoverki) >= intervalPoverki) || yearNow > yearNext) //если сумма межпов интервала и остатком месяцев до поверки == интервалу поверки
                 {
                     row.DefaultCellStyle.BackColor = Color.Red;
                 }

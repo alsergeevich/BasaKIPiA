@@ -225,6 +225,7 @@ namespace BasaKIPiA
             if (dtpYearPoverka.Value.Year > DateTime.Now.Year)
             {
                 MessageBox.Show("Год предыдущей поверки не может быть больше текущего");
+                dtpYearPoverka.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);//если пытаемся указать год выше чем текущий, то сбрасываем на текущую дату
                 flag = true;
                 return flag;
             }
