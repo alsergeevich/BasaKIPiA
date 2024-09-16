@@ -418,10 +418,14 @@ namespace BasaKIPiA
                 intervalPoverki = int.Parse(row.Cells[10].Value.ToString()); //парсим значение межповерочного интервала
                 yearNext = int.Parse(row.Cells[11].Value.ToString().Substring(row.Cells[11].Value.ToString().Length - 4));//парсим значение года
                 monthNext = int.Parse(row.Cells[11].Value.ToString().Substring(3, 2));//парсим значение месяца
-                int datePoverki = ((yearNow - yearNext) * 12) + monthNow - monthNext; //сколько месяцев осталось до поверки
-                if (((intervalPoverki + datePoverki) >= intervalPoverki) || yearNow > yearNext) //если сумма межпов интервала и остатком месяцев до поверки == интервалу поверки
+                int datePoverki = ((yearNext - yearNow) * 12) + monthNext - monthNow; //сколько месяцев осталось до поверки
+                if ((datePoverki <= 0) || (yearNow > yearNext)) //если сумма межпов интервала и остатком месяцев до поверки == интервалу поверки
                 {
                     row.DefaultCellStyle.BackColor = Color.Red;
+                }
+                else if ((datePoverki >= 1) && (datePoverki <= 2))
+                {
+                    row.DefaultCellStyle.BackColor = Color.Yellow;
                 }
                 else
                 {
