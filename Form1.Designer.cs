@@ -67,7 +67,6 @@
             this.выходToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.справкаToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.оПрограммеToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -257,7 +256,6 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.panel2.Controls.Add(this.dateTimePicker1);
             this.panel2.Controls.Add(this.lblCount);
             this.panel2.Controls.Add(this.label6);
             this.panel2.Controls.Add(this.btn_Add);
@@ -402,35 +400,35 @@
             // добавитьОбъектToolStripMenuItem1
             // 
             this.добавитьОбъектToolStripMenuItem1.Name = "добавитьОбъектToolStripMenuItem1";
-            this.добавитьОбъектToolStripMenuItem1.Size = new System.Drawing.Size(209, 22);
+            this.добавитьОбъектToolStripMenuItem1.Size = new System.Drawing.Size(208, 22);
             this.добавитьОбъектToolStripMenuItem1.Text = "Добавить новый объект";
             this.добавитьОбъектToolStripMenuItem1.Click += new System.EventHandler(this.добавитьОбъектToolStripMenuItem1_Click);
             // 
             // удалитьОбъектToolStripMenuItem1
             // 
             this.удалитьОбъектToolStripMenuItem1.Name = "удалитьОбъектToolStripMenuItem1";
-            this.удалитьОбъектToolStripMenuItem1.Size = new System.Drawing.Size(209, 22);
+            this.удалитьОбъектToolStripMenuItem1.Size = new System.Drawing.Size(208, 22);
             this.удалитьОбъектToolStripMenuItem1.Text = "Удалить объект";
             this.удалитьОбъектToolStripMenuItem1.Click += new System.EventHandler(this.удалитьОбъектToolStripMenuItem1_Click);
             // 
             // экспортВExcelToolStripMenuItem1
             // 
             this.экспортВExcelToolStripMenuItem1.Name = "экспортВExcelToolStripMenuItem1";
-            this.экспортВExcelToolStripMenuItem1.Size = new System.Drawing.Size(209, 22);
+            this.экспортВExcelToolStripMenuItem1.Size = new System.Drawing.Size(208, 22);
             this.экспортВExcelToolStripMenuItem1.Text = "Экспорт таблицы в Excel";
             this.экспортВExcelToolStripMenuItem1.Click += new System.EventHandler(this.экспортВExcelToolStripMenuItem1_Click);
             // 
             // печатьToolStripMenuItem1
             // 
             this.печатьToolStripMenuItem1.Name = "печатьToolStripMenuItem1";
-            this.печатьToolStripMenuItem1.Size = new System.Drawing.Size(209, 22);
+            this.печатьToolStripMenuItem1.Size = new System.Drawing.Size(208, 22);
             this.печатьToolStripMenuItem1.Text = "Печать таблицы";
             this.печатьToolStripMenuItem1.Click += new System.EventHandler(this.печатьToolStripMenuItem1_Click);
             // 
             // выходToolStripMenuItem1
             // 
             this.выходToolStripMenuItem1.Name = "выходToolStripMenuItem1";
-            this.выходToolStripMenuItem1.Size = new System.Drawing.Size(209, 22);
+            this.выходToolStripMenuItem1.Size = new System.Drawing.Size(208, 22);
             this.выходToolStripMenuItem1.Text = "Выход";
             this.выходToolStripMenuItem1.Click += new System.EventHandler(this.выходToolStripMenuItem1_Click);
             // 
@@ -448,13 +446,6 @@
             this.оПрограммеToolStripMenuItem1.Size = new System.Drawing.Size(149, 22);
             this.оПрограммеToolStripMenuItem1.Text = "О программе";
             this.оПрограммеToolStripMenuItem1.Click += new System.EventHandler(this.оПрограммеToolStripMenuItem1_Click);
-            // 
-            // dateTimePicker1
-            // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(340, 41);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
-            this.dateTimePicker1.TabIndex = 5;
             // 
             // MainForm
             // 
@@ -522,7 +513,6 @@
         private System.Windows.Forms.ToolStripMenuItem выходToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem справкаToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem оПрограммеToolStripMenuItem1;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
     }
 }
 
