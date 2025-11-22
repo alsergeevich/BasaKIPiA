@@ -16,8 +16,8 @@ namespace BasaKIPiA
         SQLiteConnection conn;
         SQLiteCommand cmd;
         SQLiteDataReader dr;
-        string sqlQuery1 = "SELECT * FROM types ORDER BY type";
-        string sqlQuery2 = "SELECT * FROM manufacturers ORDER BY title";
+        readonly string sqlQuery1 = "SELECT * FROM types ORDER BY type";
+        readonly string sqlQuery2 = "SELECT * FROM manufacturers ORDER BY title";
         MetodsWorkDataBase mwdb = new MetodsWorkDataBase();
 
         int id;
@@ -32,6 +32,7 @@ namespace BasaKIPiA
         string date_of_last_calibration;
         string calibration_interval;
         string date_of_next_calibration;
+        string place_of_verification; // добавлено
         string facility;
         string position;
         string file_format;
@@ -44,7 +45,7 @@ namespace BasaKIPiA
         string dataPoslPov;
         string intervPoverki;
         string nextPov;
-        public EditDeviceForm(int id, string type, string model, string manufacturer, string factory_number, string accuracy_class, string number_of_channels, string range, string units, string date_of_last_calibration, string calibration_interval, string date_of_next_calibration, string facility, string position, string file_format, string file_name, string nameObject)
+        public EditDeviceForm(int id, string type, string model, string manufacturer, string factory_number, string accuracy_class, string number_of_channels, string range, string units, string date_of_last_calibration, string calibration_interval, string date_of_next_calibration, string place_of_verification, string facility, string position, string file_format, string file_name, string nameObject)
         {
             InitializeComponent();
             this.id = id;
@@ -59,6 +60,7 @@ namespace BasaKIPiA
             this.date_of_last_calibration = date_of_last_calibration;
             this.calibration_interval = calibration_interval;
             this.date_of_next_calibration = date_of_next_calibration;
+            this.place_of_verification = place_of_verification;
             this.facility = facility;
             this.position = position;
             this.file_format = file_format;
@@ -95,6 +97,8 @@ namespace BasaKIPiA
             
             nudInterval.Value = int.Parse(calibration_interval);
             txb_NextPov.Text = date_of_next_calibration;
+            // устанавливаем новое поле
+            txb_PlacePover.Text = place_of_verification ?? "--";
             txb_Object.Text = facility;
             txb_Poziciya.Text = position;
             settingsFormForFile();
@@ -183,8 +187,9 @@ namespace BasaKIPiA
             if (txb_Poziciya.Text.Trim() == "")
                 txb_Poziciya.Text = "--";
 
+            // Передаём txb_PlacePover в updateDate
             if (mwdb.updateDate(id, cbx_Type.SelectedItem.ToString(), txb_Model.Text.Trim(), cbx_Manufacturer.SelectedItem.ToString(), txb_FabricNumber.Text.Trim(), txb_KlassTochn.Text.Trim(), txb_KolvoIzmKan.Text.Trim(), txb_Predel.Text.Trim(), txb_EdinIzm.Text.Trim(), dataPoslPov,
-                intervPoverki, txb_NextPov.Text.Trim(), txb_Object.Text.Trim(), txb_Poziciya.Text.Trim(), nameObject))
+                intervPoverki, txb_NextPov.Text.Trim(), txb_PlacePover.Text.Trim(), txb_Object.Text.Trim(), txb_Poziciya.Text.Trim(), nameObject))
             {
                 this.DialogResult = DialogResult.OK;
             }

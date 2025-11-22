@@ -30,13 +30,14 @@ namespace BasaKIPiA
         string model;
         string manufacturer;
         string factory_number;
-        string accuracy_class;
+        string reg_number_SI;
         string number_of_channels;
         string range;
         string units;
         string date_of_last_calibration;
         string calibration_interval;
         string date_of_next_calibration;
+        string place_of_verification; // новое поле
         string facility;
         string position;
         string file_format;
@@ -46,7 +47,82 @@ namespace BasaKIPiA
         public MainForm()
         {
             InitializeComponent();
+            InitializeContextMenu();
+        }
+
+        private void InitializeContextMenu()
+        {
+            // Инициализация контекстного меню для dgw_ViewMain без пунктов "Открыть файл", "Экспорт в Excel", "Печать"
+            ContextMenuStrip contextMenu = new ContextMenuStrip();
+
+            var editItem = new ToolStripMenuItem("Редактировать");
+            var deleteItem = new ToolStripMenuItem("Удалить");
             
+
+            // Действие "Редактировать"
+            editItem.Click += (s, e) =>
+            {
+                editPriborAndShowWindowEdit();
+            };
+
+            // Действие "Удалить"
+            deleteItem.Click += (s, e) =>
+            {
+                if (dgw_ViewMain.Rows.Count <= 0 || dgw_ViewMain.CurrentRow == null)
+                {
+                    MessageBox.Show("Нет приборов для удаления");
+                    return;
+                }
+                var result = MessageBox.Show("Удалить прибор ?", "Удаление прибора", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+                if (result == DialogResult.No) return;
+
+                try
+                {
+                    if (mwdb.deleteData(id, nameObject, D.DATA) == true)
+                    {
+                        MessageBox.Show("Прибор удалён из базы");
+                        search();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Ошибка при удалении");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ошибка при удалении: " + ex.Message);
+                }
+            };
+
+            contextMenu.Items.AddRange(new ToolStripItem[] { editItem, deleteItem});
+            dgw_ViewMain.ContextMenuStrip = contextMenu;
+
+            // При правом клике выделяем строку под курсором и обновляем поля (id и т.д.)
+            dgw_ViewMain.MouseDown += (s, e) =>
+            {
+                if (e.Button != MouseButtons.Right) return;
+                var hit = dgw_ViewMain.HitTest(e.X, e.Y);
+                if (hit.RowIndex >= 0)
+                {
+                    try
+                    {
+                        dgw_ViewMain.ClearSelection();
+                        dgw_ViewMain.Rows[hit.RowIndex].Selected = true;
+                        dgw_ViewMain.CurrentCell = dgw_ViewMain.Rows[hit.RowIndex].Cells[1];
+                        // Обновляем значения id и полей через существующий обработчик
+                        dgw_ViewMain_CellEnter(dgw_ViewMain, new DataGridViewCellEventArgs(1, hit.RowIndex));
+                    }
+                    catch { }
+                }
+            };
+
+            // Перед открытием меню включаем/выключаем пункты в зависимости от состояния строки
+            contextMenu.Opening += (s, e) =>
+            {
+                bool hasRow = dgw_ViewMain.CurrentRow != null && dgw_ViewMain.CurrentRow.Index >= 0;
+                editItem.Enabled = hasRow;
+                deleteItem.Enabled = hasRow;
+            };
         }
 
         private void dgvSettings() //тут задаём настройки внешнего вида для DataGridView
@@ -66,7 +142,7 @@ namespace BasaKIPiA
                 dgw_ViewMain.Columns["factory_number"].HeaderText = "Заводской номер";
                 //dgw_ViewMain.Columns["factory_number"].Width = 120;
 
-                dgw_ViewMain.Columns["accuracy_class"].HeaderText = "Класс точности";
+                dgw_ViewMain.Columns["reg_number_SI"].HeaderText = "Регистрационный номер типа СИ";
                 //dgw_ViewMain.Columns["accuracy_class"].Width = 120;
 
                 dgw_ViewMain.Columns["number_of_channels"].HeaderText = "Кол-во измер.каналов";
@@ -84,10 +160,14 @@ namespace BasaKIPiA
                 dgw_ViewMain.Columns["calibration_interval"].HeaderText = "Межповерочный интервал, мес.";
                 //dgw_ViewMain.Columns["calibration_interval"].Width = 150;
 
+                    
                 dgw_ViewMain.Columns["date_of_next_calibration"].HeaderText = "Дата следующей поверки";
-                //dgw_ViewMain.Columns["date_of_next_calibration"].Width = 120;
 
-                dgw_ViewMain.Columns["facility"].HeaderText = "Объект";
+                // новый столбец
+                dgw_ViewMain.Columns["place_of_verification"].HeaderText = "Место поверки";
+                dgw_ViewMain.Columns["place_of_verification"].Width = 220;
+
+                dgw_ViewMain.Columns["facility"].HeaderText = "Подразделение";
                 dgw_ViewMain.Columns["facility"].Visible = false;
                 //dgw_ViewMain.Columns["facility"].Width = 120;
 
@@ -99,13 +179,6 @@ namespace BasaKIPiA
                 //dgw_ViewMain.Columns["file_name"].Visible = false;
                 dgw_ViewMain.Columns["file_name"].HeaderText = "Свидетельство";
                 dgw_ViewMain.Columns["file_name"].Width = 150;
-
-
-
-
-
-
-
 
             }
             catch
@@ -153,7 +226,41 @@ namespace BasaKIPiA
 
         
 
-        
+        // Создаёт чекбоксы для отображения/скрытия столбцов
+        private void CreateColumnCheckboxes()
+        {
+            try
+            {
+                flpColumns.Controls.Clear();
+                if (dgw_ViewMain.Columns.Count == 0) return;
+
+                // Перебираем колонки в том же порядке, что и в DGV
+                foreach (DataGridViewColumn col in dgw_ViewMain.Columns)
+                {
+                    // Пропускаем технические/бинарные поля
+                    if (col.Name == "id" || col.Name == "file" || col.Name == "file_format")
+                        continue;
+
+                    CheckBox cb = new CheckBox();
+                    cb.Text = col.HeaderText ?? col.Name;
+                    cb.Tag = col.Name;
+                    cb.AutoSize = true;
+                    cb.Checked = col.Visible;
+                    cb.CheckedChanged += (s, e) =>
+                    {
+                        try
+                        {
+                            string colName = cb.Tag.ToString();
+                            if (dgw_ViewMain.Columns.Contains(colName))
+                                dgw_ViewMain.Columns[colName].Visible = cb.Checked;
+                        }
+                        catch { }
+                    };
+                    flpColumns.Controls.Add(cb);
+                }
+            }
+            catch { }
+        }
 
         private void button3_Click(object sender, EventArgs e)
         {
@@ -167,30 +274,48 @@ namespace BasaKIPiA
         {
             string sqlcommand = "select name from sqlite_master where type = 'table' and name != 'types' and name != 'manufacturers' and name != 'sqlite_sequence'";
             cbx_object.Items.Clear();
-            SQLiteConnection con = new SQLiteConnection("Data Source=" + D.DATA + ";Version=3;");
-            con.Open();
-            SQLiteCommand comm = new SQLiteCommand(sqlcommand, con);
-            SQLiteDataReader rd = comm.ExecuteReader();
-            while(rd.Read())
+
+            // Сбросим текущее выбранное имя, чтобы при старте не было выбора
+            nameObject = null;
+
+            using (SQLiteConnection con = new SQLiteConnection("Data Source=" + D.DATA + ";Version=3;"))
             {
-                cbx_object.Items.Add(rd["name"]);
-                
+                con.Open();
+                using (SQLiteCommand comm = new SQLiteCommand(sqlcommand, con))
+                using (SQLiteDataReader rd = comm.ExecuteReader())
+                {
+                    while (rd.Read())
+                    {
+                        string tableName = rd["name"].ToString();
+                        string displayName = tableName.Replace("_", " ");
+                        cbx_object.Items.Add(new ComboItem(displayName, tableName));
+                    }
+                }
             }
-            
 
-            con.Close();
-            cbx_object.SelectedItem = nameObject;
-
-
+            // Оставляем ComboBox без выбранного элемента (никакой элемент не выделен)
+            cbx_object.SelectedIndex = -1;
+            flag = false;
         }
 
         private void cbx_object_SelectedIndexChanged(object sender, EventArgs e)
         {
             flag = true;
-            nameObject = cbx_object.SelectedItem.ToString();
-            allData = mwdb.ReadAllData(sqlQueryAll + nameObject + " ORDER BY type", D.DATA);                       
+
+            // Получаем фактическое имя таблицы из ComboItem.Value
+            if (cbx_object.SelectedItem is ComboItem ci)
+            {
+                nameObject = ci.Value;
+            }
+            else
+            {
+                nameObject = cbx_object.SelectedItem?.ToString();
+            }
+
+            allData = mwdb.ReadAllData(sqlQueryAll + nameObject + " ORDER BY type", D.DATA);
             dgw_ViewMain.DataSource = allData;
             dgvSettings();
+            CreateColumnCheckboxes();
             proverkaPoverki();
         }
 
@@ -219,11 +344,6 @@ namespace BasaKIPiA
             if(addDeviceForm.ShowDialog() == DialogResult.OK)
             {
                 MessageBox.Show("Новый прибор добавлен в базу");
-                //allData.Clear();
-                //allData = mwdb.ReadAllData(sqlQueryAll + nameObject + " ORDER BY type", D.DATA);
-                //dgw_ViewMain.DataSource = allData;
-                //dgvSettings();
-                //proverkaPoverki();
                 search();
 
             }
@@ -240,17 +360,18 @@ namespace BasaKIPiA
             model = dgw_ViewMain.Rows[e.RowIndex].Cells[2].Value.ToString();
             manufacturer = dgw_ViewMain.Rows[e.RowIndex].Cells[3].Value.ToString();
             factory_number = dgw_ViewMain.Rows[e.RowIndex].Cells[4].Value.ToString();
-            accuracy_class = dgw_ViewMain.Rows[e.RowIndex].Cells[5].Value.ToString();
+            reg_number_SI = dgw_ViewMain.Rows[e.RowIndex].Cells[5].Value.ToString();
             number_of_channels = dgw_ViewMain.Rows[e.RowIndex].Cells[6].Value.ToString();
             range = dgw_ViewMain.Rows[e.RowIndex].Cells[7].Value.ToString();
             units = dgw_ViewMain.Rows[e.RowIndex].Cells[8].Value.ToString();
             date_of_last_calibration = dgw_ViewMain.Rows[e.RowIndex].Cells[9].Value.ToString();
             calibration_interval = dgw_ViewMain.Rows[e.RowIndex].Cells[10].Value.ToString();
             date_of_next_calibration = dgw_ViewMain.Rows[e.RowIndex].Cells[11].Value.ToString();
-            facility = dgw_ViewMain.Rows[e.RowIndex].Cells[12].Value.ToString();
-            position = dgw_ViewMain.Rows[e.RowIndex].Cells[13].Value.ToString();
-            file_format = dgw_ViewMain.Rows[e.RowIndex].Cells[15].Value.ToString();
-            file_name = dgw_ViewMain.Rows[e.RowIndex].Cells[16].Value.ToString();
+            place_of_verification = dgw_ViewMain.Rows[e.RowIndex].Cells[12].Value?.ToString() ?? "--";
+            facility = dgw_ViewMain.Rows[e.RowIndex].Cells[13].Value.ToString();
+            position = dgw_ViewMain.Rows[e.RowIndex].Cells[14].Value.ToString();
+            file_format = dgw_ViewMain.Rows[e.RowIndex].Cells[16].Value.ToString();
+            file_name = dgw_ViewMain.Rows[e.RowIndex].Cells[17].Value.ToString();
             
 
         }
@@ -263,7 +384,7 @@ namespace BasaKIPiA
                 return;
             }
 
-            EditDeviceForm editDeviceForm = new EditDeviceForm(id, type, model, manufacturer, factory_number, accuracy_class, number_of_channels, range, units, date_of_last_calibration, calibration_interval, date_of_next_calibration, facility, position, file_format, file_name, nameObject);
+            EditDeviceForm editDeviceForm = new EditDeviceForm(id, type, model, manufacturer, factory_number, reg_number_SI, number_of_channels, range, units, date_of_last_calibration, calibration_interval, date_of_next_calibration, place_of_verification, facility, position, file_format, file_name, nameObject);
             if (editDeviceForm.ShowDialog() == DialogResult.OK)
             {
                 MessageBox.Show("Данные прибора изменены");
@@ -315,10 +436,6 @@ namespace BasaKIPiA
             {
                 
                 MessageBox.Show("Прибор удалён из базы");
-                //allData.Clear();
-                //allData = mwdb.ReadAllData(sqlQueryAll + nameObject + " ORDER BY type", D.DATA);
-                //dgw_ViewMain.DataSource = allData;
-
                 search();
 
                 if(allData.Count != 0)
@@ -337,7 +454,7 @@ namespace BasaKIPiA
         }
 
         
-        
+
 
         private void search()
         {
@@ -351,6 +468,7 @@ namespace BasaKIPiA
                 allData = mwdb.ReadAllData(sqlQueryAll + nameObject + " ORDER BY type", D.DATA);
                 dgw_ViewMain.DataSource = allData;
                 dgvSettings();
+                CreateColumnCheckboxes();
                 proverkaPoverki();
             }
             else
@@ -361,6 +479,7 @@ namespace BasaKIPiA
                 if (allData.Count != 0)
                 {
                     dgvSettings();
+                    CreateColumnCheckboxes();
                     proverkaPoverki();
                     
                 }
@@ -378,6 +497,7 @@ namespace BasaKIPiA
         
 
         
+
 
         private void dgw_ViewMain_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -412,8 +532,7 @@ namespace BasaKIPiA
                     continue;
                 }
 
-                //kvartalNow = ((int)(DateTime.Now.Month) + 2) / 3;
-                //kvartalNext = int.Parse(row.Cells[11].Value.ToString().Substring(0, 1));
+                
 
                 intervalPoverki = int.Parse(row.Cells[10].Value.ToString()); //парсим значение межповерочного интервала
                 yearNext = int.Parse(row.Cells[11].Value.ToString().Substring(row.Cells[11].Value.ToString().Length - 4));//парсим значение года
@@ -532,6 +651,237 @@ namespace BasaKIPiA
         {
             editPriborAndShowWindowEdit();
         }
+
+        private void типыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddTypeForm addTypeForm = new AddTypeForm();
+            addTypeForm.ShowDialog();
+        }
+
+        private void производителиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddManufForm addManufForm = new AddManufForm();
+            addManufForm.ShowDialog();
+        }
+
+        private void сформироватьГрафикToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dgw_ViewMain.Rows.Count == 0)
+            {
+                MessageBox.Show("Таблица пуста. Нечего экспортировать.", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            var saveFileDialog = new SaveFileDialog
+            {
+                FileName = "График_поверки",
+                DefaultExt = ".xlsx",
+                Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*"
+            };
+
+            OfficeOpenXml.ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
+
+            if (saveFileDialog.ShowDialog() != DialogResult.OK)
+                return;
+
+            try
+            {
+                using (var package = new OfficeOpenXml.ExcelPackage())
+                {
+                    var ws = package.Workbook.Worksheets.Add("График поверки");
+
+                    // Подставляем название подразделения (используем nameObject как источник, если пусто — cbx_object)
+                    string subdivision = (!string.IsNullOrWhiteSpace(nameObject) ? nameObject : (cbx_object.SelectedItem?.ToString() ?? ""));
+                    subdivision = subdivision.Replace("_", " ");
+                    int reportYear = DateTime.Now.Year + 1;
+
+                    // Заголовок (строка 1) — объединяем колонки 1..20
+                    string title = $"График поверки {subdivision} на {reportYear} год";
+                    ws.Cells[1, 1].Value = title;
+                    ws.Cells[1, 1, 1, 20].Merge = true;
+                    ws.Cells[1, 1, 1, 20].Style.Font.Bold = true;
+                    ws.Cells[1, 1, 1, 20].Style.Font.Size = 14;
+                    ws.Cells[1, 1, 1, 20].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+                    ws.Row(1).Height = 24;
+
+                    // Заголовки (строка 2)
+                    var headers = new[]
+                    {
+                        "№", "Тип", "Модель", "Заводской номер", "Регистрационный номер типа СИ",
+                        "Дата последней поверки", "Межповерочный интервал", "Дата следующей поверки"
+                    };
+
+                    // Месяцы (колонки 9..20)
+                    var months = new[]
+                    {
+                        "Январь","Февраль","Март","Апрель","Май","Июнь",
+                        "Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"
+                    };
+
+                    int headerRow = 2;
+                    // Пишем заголовки 1..8
+                    for (int i = 0; i < headers.Length; i++)
+                    {
+                        ws.Cells[headerRow, i + 1].Value = headers[i];
+                        ws.Cells[headerRow, i + 1].Style.Font.Bold = true;
+                        ws.Cells[headerRow, i + 1].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+                    }
+
+                    // Пишем месяцы в 9..20
+                    for (int m = 0; m < months.Length; m++)
+                    {
+                        ws.Cells[headerRow, 9 + m].Value = months[m];
+                        ws.Cells[headerRow, 9 + m].Style.Font.Bold = true;
+                        ws.Cells[headerRow, 9 + m].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+                        ws.Column(9 + m).Width = 12;
+                    }
+
+                    int outRow = headerRow + 1; // данные начинаются со строки 3
+                    int[] monthCounts = new int[12];
+
+                    // Перебираем строки DataGridView
+                    foreach (DataGridViewRow row in dgw_ViewMain.Rows)
+                    {
+                        if (row.IsNewRow) continue;
+
+                        // Колонки по именам (при наличии)
+                        string type = GetCellString(row, "type");
+                        string model = GetCellString(row, "model");
+                        string factoryNumber = GetCellString(row, "factory_number");
+                        string regNumber = GetCellString(row, "reg_number_SI");
+                        string dateLast = GetCellString(row, "date_of_last_calibration");
+                        string interval = GetCellString(row, "calibration_interval");
+                        string dateNext = GetCellString(row, "date_of_next_calibration");
+
+                        ws.Cells[outRow, 1].Value = outRow - headerRow; // порядковый номер
+                        ws.Cells[outRow, 2].Value = type;
+                        ws.Cells[outRow, 3].Value = model;
+                        ws.Cells[outRow, 4].Value = factoryNumber;
+                        ws.Cells[outRow, 5].Value = regNumber;
+                        ws.Cells[outRow, 6].Value = dateLast;
+                        ws.Cells[outRow, 7].Value = interval;
+                        ws.Cells[outRow, 8].Value = dateNext;
+
+                        // Попытка распарсить дату следующей поверки и поставить плюс в соответствующем месяце
+                        if (!string.IsNullOrWhiteSpace(dateNext) && dateNext != "--")
+                        {
+                            DateTime dt;
+                            bool parsed = DateTime.TryParseExact(dateNext, new[] { "dd.MM.yyyy", "d.M.yyyy", "dd.MM.yy", "d.M.yy" },
+                                System.Globalization.CultureInfo.GetCultureInfo("ru-RU"),
+                                System.Globalization.DateTimeStyles.None, out dt);
+
+                            if (!parsed)
+                            {
+                                // как запасной вариант пробуем общую попытки парсинга
+                                parsed = DateTime.TryParse(dateNext, out dt);
+                            }
+
+                            if (parsed)
+                            {
+                                int month = dt.Month; // 1..12
+                                int monthCol = 8 + month; // 9..20
+                                ws.Cells[outRow, monthCol].Value = "+";
+                                ws.Cells[outRow, monthCol].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+                                monthCounts[month - 1]++;
+                            }
+                        }
+
+                        outRow++;
+                    }
+
+                    int dataEndRow = outRow - 1;
+
+                    // Итоговая строка с суммами по месяцам (строка после данных)
+                    int summaryRow = dataEndRow + 2;
+                    ws.Cells[summaryRow, 1].Value = "Итого";
+                    ws.Cells[summaryRow, 1].Style.Font.Bold = true;
+                    ws.Cells[summaryRow, 1].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Left;
+
+                    for (int m = 0; m < 12; m++)
+                    {
+                        ws.Cells[summaryRow, 9 + m].Value = monthCounts[m];
+                        ws.Cells[summaryRow, 9 + m].Style.Font.Bold = true;
+                        ws.Cells[summaryRow, 9 + m].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+                    }
+
+                    // Форматирование: автоширина для первых 8 колонок
+                    for (int c = 1; c <= 8; c++)
+                        ws.Column(c).AutoFit();
+
+                    // Добавляем границы для области таблицы (заголовки, данные, итог)
+                    int lastRowForBorders = summaryRow;
+                    var tableRange = ws.Cells[headerRow, 1, lastRowForBorders, 20];
+                    var border = tableRange.Style.Border;
+                    border.Top.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
+                    border.Bottom.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
+                    border.Left.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
+                    border.Right.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
+                    // Внутренние линии
+                    tableRange.Style.Border.Left.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
+                    tableRange.Style.Border.Right.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
+                    tableRange.Style.Border.Top.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
+                    tableRange.Style.Border.Bottom.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
+
+                    // Создаём столбчатую диаграмму по суммам месяцев
+                    var chart = ws.Drawings.AddChart("chart_ГрафикПоверки", OfficeOpenXml.Drawing.Chart.eChartType.ColumnClustered);
+                    chart.Title.Text = "График поверок по месяцам";
+                    chart.SetPosition(summaryRow, 20, 0, 0); // позиция: ниже итоговой строки
+                    chart.SetSize(900, 400);
+
+                    var xRange = ws.Cells[headerRow, 9, headerRow, 20]; // месяцы (заголовки)
+                    var yRange = ws.Cells[summaryRow, 9, summaryRow, 20]; // итоги
+
+                    var serie = chart.Series.Add(yRange, xRange);
+                    serie.Header = "Количество поверок";
+
+                    // Сохраняем файл
+                    var fi = new System.IO.FileInfo(saveFileDialog.FileName);
+                    package.SaveAs(fi);
+
+                    MessageBox.Show("Файл успешно сохранён: " + fi.FullName, "Готово", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка при формировании файла: " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            // Локальная вспомогательная функция для безопасного получения значения по имени колонки
+            string GetCellString(DataGridViewRow r, string colName)
+            {
+                try
+                {
+                    if (dgw_ViewMain.Columns.Contains(colName))
+                    {
+                        var cell = r.Cells[dgw_ViewMain.Columns[colName].Index].Value;
+                        return cell?.ToString() ?? "";
+                    }
+                }
+                catch { }
+                return "";
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            сформироватьГрафикToolStripMenuItem_Click(sender, e);
+        }
+
+// вспомогательный тип для хранения элемента ComboBox
+private class ComboItem
+{
+    public string Display { get; }
+    public string Value { get; }
+
+    public ComboItem(string display, string value)
+    {
+        Display = display;
+        Value = value;
+    }
+
+    // В WinForms ComboBox использует ToString() для вывода текста элемента
+    public override string ToString() => Display;
+}
     }
 
     public static class D

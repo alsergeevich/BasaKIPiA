@@ -44,12 +44,9 @@
             this.button1 = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.cbx_object = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.btn_EditDictionaryManuf = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
-            this.btn_EditDictionaryTypes = new System.Windows.Forms.Button();
             this.txb_Search = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.flpColumns = new System.Windows.Forms.FlowLayoutPanel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.lblCount = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -65,8 +62,13 @@
             this.экспортВExcelToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.печатьToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.выходToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.справочникиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.типыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.производителиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.справкаToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.оПрограммеToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.сформироватьГрафикToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.button2 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -128,29 +130,28 @@
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.panel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.panel1.BackColor = System.Drawing.Color.White;
+            this.panel1.Controls.Add(this.button2);
             this.panel1.Controls.Add(this.button1);
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.cbx_object);
-            this.panel1.Controls.Add(this.label3);
-            this.panel1.Controls.Add(this.btn_EditDictionaryManuf);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.btn_EditDictionaryTypes);
             this.panel1.Controls.Add(this.txb_Search);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(0, 24);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1924, 62);
+            this.panel1.Size = new System.Drawing.Size(2047, 64);
             this.panel1.TabIndex = 1;
             // 
             // button1
             // 
+            this.button1.AutoSize = true;
             this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
             this.button1.FlatAppearance.BorderColor = System.Drawing.Color.White;
             this.button1.FlatAppearance.BorderSize = 2;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(411, 12);
+            this.button1.Location = new System.Drawing.Point(336, 11);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(90, 34);
             this.button1.TabIndex = 10;
@@ -162,11 +163,11 @@
             // 
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(924, 24);
+            this.label5.Location = new System.Drawing.Point(1589, 22);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(90, 13);
+            this.label5.Size = new System.Drawing.Size(87, 13);
             this.label5.TabIndex = 9;
-            this.label5.Text = "Выбрать объект";
+            this.label5.Text = "Подразделение";
             // 
             // cbx_object
             // 
@@ -175,69 +176,18 @@
             this.cbx_object.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbx_object.ForeColor = System.Drawing.Color.White;
             this.cbx_object.FormattingEnabled = true;
-            this.cbx_object.Location = new System.Drawing.Point(1020, 20);
+            this.cbx_object.Location = new System.Drawing.Point(1682, 19);
             this.cbx_object.Name = "cbx_object";
-            this.cbx_object.Size = new System.Drawing.Size(245, 21);
+            this.cbx_object.Size = new System.Drawing.Size(308, 21);
             this.cbx_object.TabIndex = 8;
             this.cbx_object.SelectedIndexChanged += new System.EventHandler(this.cbx_object_SelectedIndexChanged);
             // 
-            // label3
-            // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(1594, 24);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(153, 13);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "Справочник производителей\r\n";
-            // 
-            // btn_EditDictionaryManuf
-            // 
-            this.btn_EditDictionaryManuf.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_EditDictionaryManuf.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
-            this.btn_EditDictionaryManuf.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.btn_EditDictionaryManuf.FlatAppearance.BorderSize = 2;
-            this.btn_EditDictionaryManuf.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_EditDictionaryManuf.ForeColor = System.Drawing.Color.White;
-            this.btn_EditDictionaryManuf.Location = new System.Drawing.Point(1753, 13);
-            this.btn_EditDictionaryManuf.Name = "btn_EditDictionaryManuf";
-            this.btn_EditDictionaryManuf.Size = new System.Drawing.Size(105, 34);
-            this.btn_EditDictionaryManuf.TabIndex = 4;
-            this.btn_EditDictionaryManuf.Text = "Редактировать";
-            this.btn_EditDictionaryManuf.UseVisualStyleBackColor = false;
-            this.btn_EditDictionaryManuf.Click += new System.EventHandler(this.btn_EditDictionaryManuf_Click);
-            // 
-            // label2
-            // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(1339, 24);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(99, 13);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Справочник типов";
-            // 
-            // btn_EditDictionaryTypes
-            // 
-            this.btn_EditDictionaryTypes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_EditDictionaryTypes.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
-            this.btn_EditDictionaryTypes.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.btn_EditDictionaryTypes.FlatAppearance.BorderSize = 2;
-            this.btn_EditDictionaryTypes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_EditDictionaryTypes.ForeColor = System.Drawing.Color.White;
-            this.btn_EditDictionaryTypes.Location = new System.Drawing.Point(1444, 15);
-            this.btn_EditDictionaryTypes.Name = "btn_EditDictionaryTypes";
-            this.btn_EditDictionaryTypes.Size = new System.Drawing.Size(105, 34);
-            this.btn_EditDictionaryTypes.TabIndex = 2;
-            this.btn_EditDictionaryTypes.Text = "Редактировать";
-            this.btn_EditDictionaryTypes.UseVisualStyleBackColor = false;
-            this.btn_EditDictionaryTypes.Click += new System.EventHandler(this.btn_EditDictionaryTypes_Click);
-            // 
             // txb_Search
             // 
+            this.txb_Search.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txb_Search.Location = new System.Drawing.Point(81, 20);
             this.txb_Search.Name = "txb_Search";
-            this.txb_Search.Size = new System.Drawing.Size(324, 20);
+            this.txb_Search.Size = new System.Drawing.Size(249, 20);
             this.txb_Search.TabIndex = 1;
             this.txb_Search.TextChanged += new System.EventHandler(this.txb_Search_TextChanged);
             // 
@@ -250,20 +200,31 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Фильтр";
             // 
+            // flpColumns
+            // 
+            this.flpColumns.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.flpColumns.AutoScroll = true;
+            this.flpColumns.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.flpColumns.Location = new System.Drawing.Point(255, 10);
+            this.flpColumns.Name = "flpColumns";
+            this.flpColumns.Size = new System.Drawing.Size(1182, 53);
+            this.flpColumns.TabIndex = 11;
+            // 
             // panel2
             // 
             this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.panel2.BackColor = System.Drawing.Color.White;
             this.panel2.Controls.Add(this.lblCount);
+            this.panel2.Controls.Add(this.flpColumns);
             this.panel2.Controls.Add(this.label6);
             this.panel2.Controls.Add(this.btn_Add);
             this.panel2.Controls.Add(this.btn_Edit);
             this.panel2.Controls.Add(this.btn_Delete);
-            this.panel2.Location = new System.Drawing.Point(0, 875);
+            this.panel2.Location = new System.Drawing.Point(0, 880);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1922, 73);
+            this.panel2.Size = new System.Drawing.Size(2052, 68);
             this.panel2.TabIndex = 2;
             // 
             // lblCount
@@ -272,7 +233,7 @@
             this.lblCount.AutoSize = true;
             this.lblCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lblCount.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lblCount.Location = new System.Drawing.Point(134, 45);
+            this.lblCount.Location = new System.Drawing.Point(134, 40);
             this.lblCount.Name = "lblCount";
             this.lblCount.Size = new System.Drawing.Size(0, 16);
             this.lblCount.TabIndex = 4;
@@ -282,7 +243,7 @@
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label6.Location = new System.Drawing.Point(12, 45);
+            this.label6.Location = new System.Drawing.Point(12, 40);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(115, 16);
             this.label6.TabIndex = 3;
@@ -296,7 +257,7 @@
             this.btn_Add.FlatAppearance.BorderSize = 2;
             this.btn_Add.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_Add.ForeColor = System.Drawing.Color.White;
-            this.btn_Add.Location = new System.Drawing.Point(1395, 33);
+            this.btn_Add.Location = new System.Drawing.Point(1525, 28);
             this.btn_Add.Name = "btn_Add";
             this.btn_Add.Size = new System.Drawing.Size(201, 28);
             this.btn_Add.TabIndex = 2;
@@ -312,7 +273,7 @@
             this.btn_Edit.FlatAppearance.BorderSize = 2;
             this.btn_Edit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_Edit.ForeColor = System.Drawing.Color.White;
-            this.btn_Edit.Location = new System.Drawing.Point(1602, 33);
+            this.btn_Edit.Location = new System.Drawing.Point(1732, 28);
             this.btn_Edit.Name = "btn_Edit";
             this.btn_Edit.Size = new System.Drawing.Size(166, 28);
             this.btn_Edit.TabIndex = 1;
@@ -328,7 +289,7 @@
             this.btn_Delete.FlatAppearance.BorderSize = 2;
             this.btn_Delete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_Delete.ForeColor = System.Drawing.Color.White;
-            this.btn_Delete.Location = new System.Drawing.Point(1774, 33);
+            this.btn_Delete.Location = new System.Drawing.Point(1904, 28);
             this.btn_Delete.Name = "btn_Delete";
             this.btn_Delete.Size = new System.Drawing.Size(145, 28);
             this.btn_Delete.TabIndex = 0;
@@ -344,7 +305,7 @@
             this.panel3.Controls.Add(this.dgw_ViewMain);
             this.panel3.Location = new System.Drawing.Point(0, 86);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1924, 798);
+            this.panel3.Size = new System.Drawing.Size(2054, 798);
             this.panel3.TabIndex = 3;
             // 
             // dgw_ViewMain
@@ -366,7 +327,7 @@
             this.dgw_ViewMain.Name = "dgw_ViewMain";
             this.dgw_ViewMain.ReadOnly = true;
             this.dgw_ViewMain.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgw_ViewMain.Size = new System.Drawing.Size(1924, 798);
+            this.dgw_ViewMain.Size = new System.Drawing.Size(2054, 798);
             this.dgw_ViewMain.TabIndex = 0;
             this.dgw_ViewMain.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgw_ViewMain_CellClick);
             this.dgw_ViewMain.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgw_ViewMain_CellContentDoubleClick);
@@ -375,13 +336,14 @@
             // 
             // menuStrip1
             // 
-            this.menuStrip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.menuStrip1.BackColor = System.Drawing.Color.White;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.действияToolStripMenuItem,
+            this.справочникиToolStripMenuItem,
             this.справкаToolStripMenuItem1});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1924, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(2054, 24);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -390,6 +352,7 @@
             this.действияToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.добавитьОбъектToolStripMenuItem1,
             this.удалитьОбъектToolStripMenuItem1,
+            this.сформироватьГрафикToolStripMenuItem,
             this.экспортВExcelToolStripMenuItem1,
             this.печатьToolStripMenuItem1,
             this.выходToolStripMenuItem1});
@@ -432,6 +395,29 @@
             this.выходToolStripMenuItem1.Text = "Выход";
             this.выходToolStripMenuItem1.Click += new System.EventHandler(this.выходToolStripMenuItem1_Click);
             // 
+            // справочникиToolStripMenuItem
+            // 
+            this.справочникиToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.типыToolStripMenuItem,
+            this.производителиToolStripMenuItem});
+            this.справочникиToolStripMenuItem.Name = "справочникиToolStripMenuItem";
+            this.справочникиToolStripMenuItem.Size = new System.Drawing.Size(94, 20);
+            this.справочникиToolStripMenuItem.Text = "Справочники";
+            // 
+            // типыToolStripMenuItem
+            // 
+            this.типыToolStripMenuItem.Name = "типыToolStripMenuItem";
+            this.типыToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.типыToolStripMenuItem.Text = "Типы";
+            this.типыToolStripMenuItem.Click += new System.EventHandler(this.типыToolStripMenuItem_Click);
+            // 
+            // производителиToolStripMenuItem
+            // 
+            this.производителиToolStripMenuItem.Name = "производителиToolStripMenuItem";
+            this.производителиToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.производителиToolStripMenuItem.Text = "Производители";
+            this.производителиToolStripMenuItem.Click += new System.EventHandler(this.производителиToolStripMenuItem_Click);
+            // 
             // справкаToolStripMenuItem1
             // 
             this.справкаToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -447,18 +433,42 @@
             this.оПрограммеToolStripMenuItem1.Text = "О программе";
             this.оПрограммеToolStripMenuItem1.Click += new System.EventHandler(this.оПрограммеToolStripMenuItem1_Click);
             // 
+            // сформироватьГрафикToolStripMenuItem
+            // 
+            this.сформироватьГрафикToolStripMenuItem.Name = "сформироватьГрафикToolStripMenuItem";
+            this.сформироватьГрафикToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.сформироватьГрафикToolStripMenuItem.Text = "Сформировать график";
+            this.сформироватьГрафикToolStripMenuItem.Click += new System.EventHandler(this.сформироватьГрафикToolStripMenuItem_Click);
+            // 
+            // button2
+            // 
+            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button2.AutoSize = true;
+            this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+            this.button2.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.button2.FlatAppearance.BorderSize = 2;
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.ForeColor = System.Drawing.Color.White;
+            this.button2.Location = new System.Drawing.Point(1234, 12);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(309, 34);
+            this.button2.TabIndex = 11;
+            this.button2.Text = "Сформировать график поверки";
+            this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1924, 948);
+            this.ClientSize = new System.Drawing.Size(2054, 948);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
-            this.MinimumSize = new System.Drawing.Size(1509, 987);
+            this.MinimumSize = new System.Drawing.Size(2070, 987);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "База данных по КИП";
@@ -488,10 +498,6 @@
         private System.Windows.Forms.ToolStripMenuItem добавитьОбъектToolStripMenuItem;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox cbx_object;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button btn_EditDictionaryManuf;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button btn_EditDictionaryTypes;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button btn_Add;
         private System.Windows.Forms.Button btn_Edit;
@@ -513,6 +519,12 @@
         private System.Windows.Forms.ToolStripMenuItem выходToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem справкаToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem оПрограммеToolStripMenuItem1;
+        private System.Windows.Forms.FlowLayoutPanel flpColumns;
+        private System.Windows.Forms.ToolStripMenuItem справочникиToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem типыToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem производителиToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem сформироватьГрафикToolStripMenuItem;
+        private System.Windows.Forms.Button button2;
     }
 }
 

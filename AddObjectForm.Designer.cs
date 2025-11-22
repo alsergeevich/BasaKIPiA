@@ -46,6 +46,7 @@
             // 
             // txb_NameObject
             // 
+            this.txb_NameObject.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txb_NameObject.Location = new System.Drawing.Point(122, 46);
             this.txb_NameObject.Name = "txb_NameObject";
             this.txb_NameObject.Size = new System.Drawing.Size(305, 20);
@@ -80,7 +81,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(447, 135);
             this.Controls.Add(this.btn_AddObject);
             this.Controls.Add(this.btn_Cancel);

@@ -40,6 +40,8 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.nudInterval = new System.Windows.Forms.NumericUpDown();
             this.dtpYearPoverka = new System.Windows.Forms.DateTimePicker();
+            this.txb_PlacePover = new System.Windows.Forms.TextBox();
+            this.labelPlacePover = new System.Windows.Forms.Label();
             this.txb_Poziciya = new System.Windows.Forms.TextBox();
             this.txb_Object = new System.Windows.Forms.TextBox();
             this.txb_NextPov = new System.Windows.Forms.TextBox();
@@ -72,11 +74,11 @@
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.panel1.BackColor = System.Drawing.Color.White;
             this.panel1.Controls.Add(this.btn_Okey);
             this.panel1.Controls.Add(this.btn_Cancel);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 626);
+            this.panel1.Location = new System.Drawing.Point(0, 668);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(474, 63);
             this.panel1.TabIndex = 0;
@@ -107,7 +109,7 @@
             // 
             // panel2
             // 
-            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.panel2.BackColor = System.Drawing.Color.White;
             this.panel2.Controls.Add(this.btnReadFile);
             this.panel2.Controls.Add(this.btnDeleteFile);
             this.panel2.Controls.Add(this.btnInsertFile);
@@ -115,6 +117,8 @@
             this.panel2.Controls.Add(this.pictureBox1);
             this.panel2.Controls.Add(this.nudInterval);
             this.panel2.Controls.Add(this.dtpYearPoverka);
+            this.panel2.Controls.Add(this.txb_PlacePover);
+            this.panel2.Controls.Add(this.labelPlacePover);
             this.panel2.Controls.Add(this.txb_Poziciya);
             this.panel2.Controls.Add(this.txb_Object);
             this.panel2.Controls.Add(this.txb_NextPov);
@@ -142,7 +146,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(474, 626);
+            this.panel2.Size = new System.Drawing.Size(474, 668);
             this.panel2.TabIndex = 1;
             this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
             // 
@@ -150,7 +154,7 @@
             // 
             this.btnReadFile.BackColor = System.Drawing.Color.Olive;
             this.btnReadFile.ForeColor = System.Drawing.Color.White;
-            this.btnReadFile.Location = new System.Drawing.Point(185, 536);
+            this.btnReadFile.Location = new System.Drawing.Point(180, 568);
             this.btnReadFile.Name = "btnReadFile";
             this.btnReadFile.Size = new System.Drawing.Size(75, 33);
             this.btnReadFile.TabIndex = 60;
@@ -162,7 +166,7 @@
             // 
             this.btnDeleteFile.BackColor = System.Drawing.Color.Red;
             this.btnDeleteFile.ForeColor = System.Drawing.Color.White;
-            this.btnDeleteFile.Location = new System.Drawing.Point(185, 497);
+            this.btnDeleteFile.Location = new System.Drawing.Point(180, 529);
             this.btnDeleteFile.Name = "btnDeleteFile";
             this.btnDeleteFile.Size = new System.Drawing.Size(75, 33);
             this.btnDeleteFile.TabIndex = 59;
@@ -174,7 +178,7 @@
             // 
             this.btnInsertFile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
             this.btnInsertFile.ForeColor = System.Drawing.Color.White;
-            this.btnInsertFile.Location = new System.Drawing.Point(185, 459);
+            this.btnInsertFile.Location = new System.Drawing.Point(180, 491);
             this.btnInsertFile.Name = "btnInsertFile";
             this.btnInsertFile.Size = new System.Drawing.Size(75, 33);
             this.btnInsertFile.TabIndex = 58;
@@ -185,7 +189,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(18, 422);
+            this.label14.Location = new System.Drawing.Point(13, 454);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(223, 13);
             this.label14.TabIndex = 57;
@@ -194,7 +198,7 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(15, 459);
+            this.pictureBox1.Location = new System.Drawing.Point(10, 491);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(128, 129);
             this.pictureBox1.TabIndex = 56;
@@ -241,16 +245,35 @@
             this.dtpYearPoverka.TabIndex = 54;
             this.dtpYearPoverka.ValueChanged += new System.EventHandler(this.dtpYearPoverka_ValueChanged);
             // 
+            // txb_PlacePover
+            // 
+            this.txb_PlacePover.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txb_PlacePover.Location = new System.Drawing.Point(209, 346);
+            this.txb_PlacePover.Name = "txb_PlacePover";
+            this.txb_PlacePover.Size = new System.Drawing.Size(237, 20);
+            this.txb_PlacePover.TabIndex = 52;
+            // 
+            // labelPlacePover
+            // 
+            this.labelPlacePover.AutoSize = true;
+            this.labelPlacePover.Location = new System.Drawing.Point(12, 349);
+            this.labelPlacePover.Name = "labelPlacePover";
+            this.labelPlacePover.Size = new System.Drawing.Size(84, 13);
+            this.labelPlacePover.TabIndex = 57;
+            this.labelPlacePover.Text = "Место поверки";
+            // 
             // txb_Poziciya
             // 
-            this.txb_Poziciya.Location = new System.Drawing.Point(209, 374);
+            this.txb_Poziciya.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txb_Poziciya.Location = new System.Drawing.Point(209, 398);
             this.txb_Poziciya.Name = "txb_Poziciya";
             this.txb_Poziciya.Size = new System.Drawing.Size(237, 20);
             this.txb_Poziciya.TabIndex = 51;
             // 
             // txb_Object
             // 
-            this.txb_Object.Location = new System.Drawing.Point(209, 345);
+            this.txb_Object.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txb_Object.Location = new System.Drawing.Point(209, 372);
             this.txb_Object.Name = "txb_Object";
             this.txb_Object.ReadOnly = true;
             this.txb_Object.Size = new System.Drawing.Size(237, 20);
@@ -258,6 +281,7 @@
             // 
             // txb_NextPov
             // 
+            this.txb_NextPov.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txb_NextPov.Location = new System.Drawing.Point(209, 316);
             this.txb_NextPov.Name = "txb_NextPov";
             this.txb_NextPov.ReadOnly = true;
@@ -266,6 +290,7 @@
             // 
             // txb_EdinIzm
             // 
+            this.txb_EdinIzm.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txb_EdinIzm.Location = new System.Drawing.Point(209, 228);
             this.txb_EdinIzm.Name = "txb_EdinIzm";
             this.txb_EdinIzm.Size = new System.Drawing.Size(100, 20);
@@ -273,6 +298,7 @@
             // 
             // txb_Predel
             // 
+            this.txb_Predel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txb_Predel.Location = new System.Drawing.Point(209, 199);
             this.txb_Predel.Name = "txb_Predel";
             this.txb_Predel.Size = new System.Drawing.Size(100, 20);
@@ -280,6 +306,7 @@
             // 
             // txb_KolvoIzmKan
             // 
+            this.txb_KolvoIzmKan.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txb_KolvoIzmKan.Location = new System.Drawing.Point(209, 170);
             this.txb_KolvoIzmKan.Name = "txb_KolvoIzmKan";
             this.txb_KolvoIzmKan.Size = new System.Drawing.Size(100, 20);
@@ -287,6 +314,7 @@
             // 
             // txb_KlassTochn
             // 
+            this.txb_KlassTochn.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txb_KlassTochn.Location = new System.Drawing.Point(209, 142);
             this.txb_KlassTochn.Name = "txb_KlassTochn";
             this.txb_KlassTochn.Size = new System.Drawing.Size(100, 20);
@@ -304,6 +332,7 @@
             // 
             // txb_FabricNumber
             // 
+            this.txb_FabricNumber.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txb_FabricNumber.Location = new System.Drawing.Point(209, 114);
             this.txb_FabricNumber.Name = "txb_FabricNumber";
             this.txb_FabricNumber.Size = new System.Drawing.Size(237, 20);
@@ -311,6 +340,7 @@
             // 
             // txb_Model
             // 
+            this.txb_Model.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txb_Model.Location = new System.Drawing.Point(209, 55);
             this.txb_Model.Name = "txb_Model";
             this.txb_Model.Size = new System.Drawing.Size(237, 20);
@@ -329,7 +359,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(12, 382);
+            this.label13.Location = new System.Drawing.Point(12, 406);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(142, 13);
             this.label13.TabIndex = 38;
@@ -338,11 +368,11 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(12, 353);
+            this.label12.Location = new System.Drawing.Point(12, 380);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(45, 13);
+            this.label12.Size = new System.Drawing.Size(87, 13);
             this.label12.TabIndex = 37;
-            this.label12.Text = "Объект";
+            this.label12.Text = "Подразделение";
             // 
             // label11
             // 
@@ -403,9 +433,9 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(12, 149);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(86, 13);
+            this.label5.Size = new System.Drawing.Size(177, 13);
             this.label5.TabIndex = 30;
-            this.label5.Text = "Класс точности";
+            this.label5.Text = "Регистрационный номер типа СИ";
             // 
             // label3
             // 
@@ -447,13 +477,13 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(474, 689);
+            this.ClientSize = new System.Drawing.Size(474, 731);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(490, 950);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(490, 728);
+            this.MinimumSize = new System.Drawing.Size(490, 770);
             this.Name = "EditDeviceForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Редактирование данных прибора";
@@ -504,5 +534,7 @@
         private System.Windows.Forms.Button btnDeleteFile;
         private System.Windows.Forms.Button btnInsertFile;
         private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TextBox txb_PlacePover;
+        private System.Windows.Forms.Label labelPlacePover;
     }
 }

@@ -16,10 +16,10 @@ namespace BasaKIPiA
         SQLiteConnection conn;
         SQLiteCommand cmd;
         SQLiteDataReader dr;
-        string sqlQuery1 = "SELECT * FROM types ORDER BY type";
-        string sqlQuery2 = "SELECT * FROM manufacturers ORDER BY title";
+        readonly string sqlQuery1 = "SELECT * FROM types ORDER BY type";
+        readonly string sqlQuery2 = "SELECT * FROM manufacturers ORDER BY title";
         string nameObject;
-        string nameObjectNonEdit;
+        readonly string nameObjectNonEdit;
         MetodsWorkDataBase mwdb = new MetodsWorkDataBase();
         string dataPoslPov;
         string intervPoverki;
@@ -36,6 +36,7 @@ namespace BasaKIPiA
             txb_EdinIzm.AutoCompleteCustomSource = D.collection;
             
             txb_NextPov.AutoCompleteCustomSource = D.collection;
+            txb_PlacePover.AutoCompleteCustomSource = D.collection;
         }
 
         private void populateCbxTypes()
@@ -115,7 +116,7 @@ namespace BasaKIPiA
             for(int i = 0; i < nudKolichestvo.Value; i++)
             {
                 if (mwdb.SaveNewDevice(cbx_Type.SelectedItem.ToString(), txb_Model.Text.Trim(), cbx_Manufacturer.SelectedItem.ToString(), txb_FabricNumber.Text.Trim(), txb_KlassTochn.Text.Trim(), txb_KolvoIzmKan.Text.Trim(), txb_Predel.Text.Trim(), txb_EdinIzm.Text.Trim(), dataPoslPov,
-                intervPoverki, txb_NextPov.Text.Trim(), txb_Object.Text.Trim(), txb_Poziciya.Text.Trim(), nameObjectNonEdit))
+                intervPoverki, txb_NextPov.Text.Trim(), txb_PlacePover.Text.Trim(), txb_Object.Text.Trim(), txb_Poziciya.Text.Trim(), nameObjectNonEdit))
                 {
                     this.DialogResult = DialogResult.OK;
 
@@ -159,6 +160,14 @@ namespace BasaKIPiA
             if(txb_EdinIzm.Text != "" || !D.collection.Contains(txb_EdinIzm.Text.Trim()))
             {
                 D.collection.Add(txb_EdinIzm.Text.Trim());
+            }
+        }
+
+        private void txb_PlacePover_LostFocus(object sender, System.EventArgs e)
+        {
+            if(txb_PlacePover.Text != "" || !D.collection.Contains(txb_PlacePover.Text.Trim()))
+            {
+                D.collection.Add(txb_PlacePover.Text.Trim());
             }
         }
 

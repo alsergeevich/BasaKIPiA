@@ -37,6 +37,8 @@
             this.label14 = new System.Windows.Forms.Label();
             this.nudInterval = new System.Windows.Forms.NumericUpDown();
             this.dtpYearPoverka = new System.Windows.Forms.DateTimePicker();
+            this.txb_PlacePover = new System.Windows.Forms.TextBox();
+            this.labelPlacePover = new System.Windows.Forms.Label();
             this.txb_Poziciya = new System.Windows.Forms.TextBox();
             this.txb_Object = new System.Windows.Forms.TextBox();
             this.txb_NextPov = new System.Windows.Forms.TextBox();
@@ -69,11 +71,11 @@
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.panel1.BackColor = System.Drawing.Color.White;
             this.panel1.Controls.Add(this.btn_Add);
             this.panel1.Controls.Add(this.button1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 438);
+            this.panel1.Location = new System.Drawing.Point(0, 493);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(474, 68);
             this.panel1.TabIndex = 0;
@@ -104,11 +106,13 @@
             // 
             // panel2
             // 
-            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.panel2.BackColor = System.Drawing.Color.White;
             this.panel2.Controls.Add(this.nudKolichestvo);
             this.panel2.Controls.Add(this.label14);
             this.panel2.Controls.Add(this.nudInterval);
             this.panel2.Controls.Add(this.dtpYearPoverka);
+            this.panel2.Controls.Add(this.txb_PlacePover);
+            this.panel2.Controls.Add(this.labelPlacePover);
             this.panel2.Controls.Add(this.txb_Poziciya);
             this.panel2.Controls.Add(this.txb_Object);
             this.panel2.Controls.Add(this.txb_NextPov);
@@ -136,12 +140,12 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(474, 438);
+            this.panel2.Size = new System.Drawing.Size(474, 493);
             this.panel2.TabIndex = 1;
             // 
             // nudKolichestvo
             // 
-            this.nudKolichestvo.Location = new System.Drawing.Point(209, 392);
+            this.nudKolichestvo.Location = new System.Drawing.Point(209, 415);
             this.nudKolichestvo.Maximum = new decimal(new int[] {
             10,
             0,
@@ -165,7 +169,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(12, 400);
+            this.label14.Location = new System.Drawing.Point(12, 423);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(151, 13);
             this.label14.TabIndex = 30;
@@ -212,9 +216,31 @@
             this.dtpYearPoverka.TabIndex = 27;
             this.dtpYearPoverka.ValueChanged += new System.EventHandler(this.dtpYearPoverka_ValueChanged);
             // 
+            // txb_PlacePover
+            // 
+            this.txb_PlacePover.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.txb_PlacePover.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.txb_PlacePover.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txb_PlacePover.Location = new System.Drawing.Point(209, 333);
+            this.txb_PlacePover.Name = "txb_PlacePover";
+            this.txb_PlacePover.Size = new System.Drawing.Size(237, 20);
+            this.txb_PlacePover.TabIndex = 26;
+            this.txb_PlacePover.Text = "--";
+            this.txb_PlacePover.LostFocus += new System.EventHandler(this.txb_PlacePover_LostFocus);
+            // 
+            // labelPlacePover
+            // 
+            this.labelPlacePover.AutoSize = true;
+            this.labelPlacePover.Location = new System.Drawing.Point(12, 336);
+            this.labelPlacePover.Name = "labelPlacePover";
+            this.labelPlacePover.Size = new System.Drawing.Size(84, 13);
+            this.labelPlacePover.TabIndex = 11;
+            this.labelPlacePover.Text = "Место поверки";
+            // 
             // txb_Poziciya
             // 
-            this.txb_Poziciya.Location = new System.Drawing.Point(209, 362);
+            this.txb_Poziciya.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txb_Poziciya.Location = new System.Drawing.Point(209, 385);
             this.txb_Poziciya.Name = "txb_Poziciya";
             this.txb_Poziciya.Size = new System.Drawing.Size(237, 20);
             this.txb_Poziciya.TabIndex = 25;
@@ -222,7 +248,8 @@
             // 
             // txb_Object
             // 
-            this.txb_Object.Location = new System.Drawing.Point(209, 336);
+            this.txb_Object.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txb_Object.Location = new System.Drawing.Point(209, 359);
             this.txb_Object.Name = "txb_Object";
             this.txb_Object.ReadOnly = true;
             this.txb_Object.Size = new System.Drawing.Size(237, 20);
@@ -232,6 +259,7 @@
             // 
             this.txb_NextPov.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.txb_NextPov.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.txb_NextPov.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txb_NextPov.Location = new System.Drawing.Point(209, 307);
             this.txb_NextPov.Name = "txb_NextPov";
             this.txb_NextPov.ReadOnly = true;
@@ -242,6 +270,7 @@
             // 
             this.txb_EdinIzm.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.txb_EdinIzm.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.txb_EdinIzm.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txb_EdinIzm.Location = new System.Drawing.Point(210, 223);
             this.txb_EdinIzm.Name = "txb_EdinIzm";
             this.txb_EdinIzm.Size = new System.Drawing.Size(100, 20);
@@ -253,6 +282,7 @@
             // 
             this.txb_Predel.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.txb_Predel.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.txb_Predel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txb_Predel.Location = new System.Drawing.Point(209, 196);
             this.txb_Predel.Name = "txb_Predel";
             this.txb_Predel.Size = new System.Drawing.Size(100, 20);
@@ -262,6 +292,7 @@
             // 
             // txb_KolvoIzmKan
             // 
+            this.txb_KolvoIzmKan.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txb_KolvoIzmKan.Location = new System.Drawing.Point(210, 168);
             this.txb_KolvoIzmKan.Name = "txb_KolvoIzmKan";
             this.txb_KolvoIzmKan.Size = new System.Drawing.Size(100, 20);
@@ -272,6 +303,7 @@
             // 
             this.txb_KlassTochn.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.txb_KlassTochn.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.txb_KlassTochn.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txb_KlassTochn.Location = new System.Drawing.Point(210, 141);
             this.txb_KlassTochn.Name = "txb_KlassTochn";
             this.txb_KlassTochn.Size = new System.Drawing.Size(100, 20);
@@ -292,6 +324,7 @@
             // 
             // txb_FabricNumber
             // 
+            this.txb_FabricNumber.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txb_FabricNumber.Location = new System.Drawing.Point(210, 113);
             this.txb_FabricNumber.Name = "txb_FabricNumber";
             this.txb_FabricNumber.Size = new System.Drawing.Size(237, 20);
@@ -302,6 +335,7 @@
             // 
             this.txb_Model.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.txb_Model.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.txb_Model.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txb_Model.Location = new System.Drawing.Point(210, 56);
             this.txb_Model.Name = "txb_Model";
             this.txb_Model.Size = new System.Drawing.Size(237, 20);
@@ -323,7 +357,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(12, 370);
+            this.label13.Location = new System.Drawing.Point(12, 393);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(142, 13);
             this.label13.TabIndex = 12;
@@ -332,11 +366,11 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(12, 343);
+            this.label12.Location = new System.Drawing.Point(12, 366);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(45, 13);
+            this.label12.Size = new System.Drawing.Size(87, 13);
             this.label12.TabIndex = 11;
-            this.label12.Text = "Объект";
+            this.label12.Text = "Подразделение";
             // 
             // label11
             // 
@@ -397,9 +431,9 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(13, 148);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(86, 13);
+            this.label5.Size = new System.Drawing.Size(177, 13);
             this.label5.TabIndex = 4;
-            this.label5.Text = "Класс точности";
+            this.label5.Text = "Регистрационный номер типа СИ";
             // 
             // label3
             // 
@@ -441,12 +475,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(474, 506);
+            this.ClientSize = new System.Drawing.Size(474, 561);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(490, 545);
+            this.MaximumSize = new System.Drawing.Size(490, 600);
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(490, 545);
             this.Name = "AddDeviceForm";
@@ -496,5 +530,7 @@
         private System.Windows.Forms.DateTimePicker dtpYearPoverka;
         private System.Windows.Forms.NumericUpDown nudKolichestvo;
         private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TextBox txb_PlacePover;
+        private System.Windows.Forms.Label labelPlacePover;
     }
 }
